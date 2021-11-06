@@ -1,0 +1,64 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.Calculator" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+<!--        <item name="android:shape">shape</item>-->
+    </style>
+
+    <style name="MainBotton">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">72dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">34sp</item>
+        <item name="android:clickable">true</item>
+        <item name="android:background">@drawable/shape_main_button</item>
+        <item name="android:textColor">@color/text_color</item>
+    </style>
+
+
+
+
+    <style name="OptionButton">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">72dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">34sp</item>
+        <item name="android:clickable">true</item>
+        <item name="android:background">@drawable/shape_options_button</item>
+        <item name="android:textColor">@color/main_color</item>
+    </style>
+
+    <style name="MainBottonLand">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">36dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">28sp</item>
+        <item name="android:clickable">true</item>
+        <item name="android:background">@drawable/shape_main_button</item>
+        <item name="android:textColor">@color/text_color</item>
+    </style>
+
+    <style name="OptionButtonLand">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">36dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">28sp</item>
+        <item name="android:clickable">true</item>
+        <item name="android:background">@drawable/shape_options_button</item>
+        <item name="android:textColor">@color/main_color</item>
+
+    </style>
+
+</resources>

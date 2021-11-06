@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Calculator</string>
+    <string name="settings_result_panel_title">Панель результата</string>
+    <string name="history_title">История</string>
+
+    <string-array name="result_panel_types">
+        <item>Есть и отображается слева</item>
+        <item>Есть и отображается справа</item>
+        <item>Скрыта</item>
+    </string-array>
+</resources>
