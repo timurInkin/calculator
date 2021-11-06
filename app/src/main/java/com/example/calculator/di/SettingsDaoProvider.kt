@@ -8,7 +8,7 @@ object SettingsDaoProvider {
 
     private var dao: SettingsDao? =  null
 
-    fun getDao(context: Context): SettingsDao {
+    fun get(context: Context): SettingsDao {
         return dao ?: SettingsDaoImpl(
             context.getSharedPreferences(
                 "setting",

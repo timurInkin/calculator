@@ -15,10 +15,10 @@ class HistoryViewModel(
 
 
     private val _historyItemState = MutableLiveData<List<HistoryItem>>()
-    val historyItemState: LiveData<List<HistoryItem>> = _historyItemState
+    val historyItemState  = _historyItemState
 
     private val _closeWithResult = SingleLiveEvent<HistoryItem>()
-    val closeWithResult : LiveData<HistoryItem> = _closeWithResult
+    val closeWithResult = _closeWithResult
 
     init {
         viewModelScope.launch {

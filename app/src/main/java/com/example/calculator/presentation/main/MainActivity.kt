@@ -1,11 +1,19 @@
 package com.example.calculator.presentation.main
 
+import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
+import android.os.Vibrator.VIBRATION_EFFECT_SUPPORT_YES
 import android.view.Gravity
+import android.widget.Button
 import androidx.activity.result.launch
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -20,14 +28,14 @@ import com.example.presentation.history.HistoryResult
 
 
 class MainActivity : BaseActivity() {
+
     private val viewBinding by viewBinding(MainActivityBinding::bind)
     private val viewModel: MainViewModel by viewModels() {
         object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
                 return MainViewModel(
-                    SettingsDaoProvider.getDao(this@MainActivity),
-                    HistoryRepositoryProvider.get(this@MainActivity)
-                ) as T
+                    SettingsDaoProvider.get(this@MainActivity),
+                    HistoryRepositoryProvider.get(this@MainActivity)) as T
             }
         }
     }
@@ -53,9 +61,7 @@ class MainActivity : BaseActivity() {
             openHistory()
         }
 
-        viewBinding.mainEquals.setOnClickListener {
-            viewModel.onEqualsClick(Operator.EQUALS, viewBinding.mainResult.text)
-        }
+
         viewModel.expressionState.observe(this) {
             viewBinding.mainInput.setText(it.expression)
             viewBinding.mainInput.setSelection(it.selection)
@@ -91,17 +97,29 @@ class MainActivity : BaseActivity() {
             textView.setOnClickListener { viewModel.onNumberClick(index, viewBinding.mainInput.selectionStart) }
         }
 
-        viewBinding.mainDev.setOnClickListener {viewModel.onOperatorClick(Operator.DEVIDE, viewBinding.mainInput.selectionEnd)}
-        viewBinding.mainMultiply.setOnClickListener {viewModel.onOperatorClick(Operator.MULTIPUE, viewBinding.mainInput.selectionEnd)}
-        viewBinding.mainMinus.setOnClickListener {viewModel.onOperatorClick(Operator.MINUS, viewBinding.mainInput.selectionEnd)}
-        viewBinding.mainPlus.setOnClickListener {viewModel.onOperatorClick(Operator.PLUS, viewBinding.mainInput.selectionEnd)}
-        viewBinding.mainDot.setOnClickListener {viewModel.onOperatorClick(Operator.DOT, viewBinding.mainInput.selectionEnd)}
+        mapOf(
+            Operator.PLUS to viewBinding.mainPlus,
+            Operator.MINUS to viewBinding.mainMinus,
+            Operator.MULTIPUE to viewBinding.mainMultiply,
+            Operator.DEVIDE to viewBinding.mainDev,
+            Operator.DOT to viewBinding.mainDot,
+            Operator.DEGREE to viewBinding.mainDegree,
+        ).forEach { (operator, textView) ->
+            textView?.setOnClickListener {
+                viewModel.onOperatorClick(operator, viewBinding.mainInput.selectionStart)
+            }
+        }
+
+
+        viewBinding.mainSqrt.setOnClickListener {
+            viewModel.onSqrtClick(viewBinding.mainInput.selectionStart)
+        }
         viewBinding.mainEquals.setOnClickListener{viewModel.onEqualsClick(Operator.EQUALS, viewBinding.mainResult.text)}
         viewBinding.mainBackspace.setOnClickListener{viewModel.onBackSpaceClick(viewBinding.mainInput.selectionStart)}
         viewBinding.mainClear.setOnClickListener{viewModel.onClearClick()}
 
-
     }
+
 
     override fun onStart() {
         super.onStart()

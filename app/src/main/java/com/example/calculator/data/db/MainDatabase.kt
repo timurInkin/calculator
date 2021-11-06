@@ -13,6 +13,7 @@ import com.example.calculator.data.db.history.HistoryItemEntity
     version = 1,
     exportSchema = true
 )
+
 abstract class MainDatabase: RoomDatabase() {
 
     abstract val historyItemDao: HistoryItemDao

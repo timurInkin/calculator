@@ -6,7 +6,7 @@ import com.example.calculator.domain.HistoryRepository
 import com.example.calculator.domain.entity.HistoryItem
 
 class HistoryRepositoryImpl (
-    private val historyItemDao:HistoryItemDao
+    private val historyItemDao: HistoryItemDao
     ): HistoryRepository {
 
 

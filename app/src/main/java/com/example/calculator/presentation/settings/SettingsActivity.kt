@@ -2,6 +2,7 @@ package com.example.calculator.presentation.settings
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.system.Os.bind
 
 import androidx.activity.viewModels
 import androidx.lifecycle.ViewModel
@@ -19,10 +20,7 @@ class SettingsActivity : BaseActivity() {
     private val viewModel by viewModels<SettingsViewModel> {
         object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return SettingsViewModel(
-                    SettingsDaoProvider.getDao(this@SettingsActivity),
-                    HistoryRepositoryProvider.get(this@SettingsActivity)
-                ) as T
+                return SettingsViewModel(SettingsDaoProvider.get(this@SettingsActivity)) as T
             }
         }
     }

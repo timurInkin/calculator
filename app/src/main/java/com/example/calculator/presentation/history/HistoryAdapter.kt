@@ -11,15 +11,14 @@ class HistoryAdapter (
     private val onItemClick: (HistoryItem) -> Unit
         ) : RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() {
 
-    private val data: List<HistoryItem> = emptyList()
+    private var data: List<HistoryItem> = emptyList()
 
-    fun setData(data : List<HistoryItem>) {
-        this.data
+    fun setData(data: List<HistoryItem>) {
+        this.data = data
         notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.history_item, parent)
         return HistoryViewHolder(
             HistoryItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
@@ -36,7 +35,9 @@ class HistoryAdapter (
         }
     }
 
-    override fun getItemCount(): Int = data.size
+    override fun getItemCount(): Int {
+        return data.size
+    }
 
 
     class HistoryViewHolder(val bindings: HistoryItemBinding) : RecyclerView.ViewHolder(bindings.root)

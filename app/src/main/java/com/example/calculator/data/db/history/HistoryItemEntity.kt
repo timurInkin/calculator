@@ -8,5 +8,5 @@ class HistoryItemEntity (
     @PrimaryKey(autoGenerate = true)
     val id: Long,
     val expression: String,
-    val result: String
-        )
+    val result: String,
+)

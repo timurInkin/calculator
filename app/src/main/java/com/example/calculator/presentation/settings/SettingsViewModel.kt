@@ -11,9 +11,8 @@ import com.example.calculator.domain.entity.ResultPanelType
 import kotlinx.coroutines.launch
 
 class SettingsViewModel(
-    private val settingsDao: SettingsDao,
-    get: HistoryRepository
-):ViewModel() {
+    private val settingsDao: SettingsDao
+    ):ViewModel() {
     
     private val _resultPanelState = MutableLiveData<ResultPanelType>()
     val resultPanelType: LiveData<ResultPanelType> = _resultPanelState
@@ -23,7 +22,7 @@ class SettingsViewModel(
 
     init {
         viewModelScope.launch {
-            settingsDao.getResultPanelType()
+            _resultPanelState.value = settingsDao.getResultPanelType()
         }
     }
 
