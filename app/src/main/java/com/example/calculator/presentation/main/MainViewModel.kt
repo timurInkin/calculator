@@ -7,6 +7,7 @@ import android.os.VibrationEffect
 import android.os.Vibrator
 import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -38,16 +39,18 @@ class MainViewModel(
     private val _resultPanelState = MutableLiveData<ResultPanelType>(ResultPanelType.LEFT)
     val resultPanelState: LiveData<ResultPanelType> = _resultPanelState
 
+
 //    init {
 //        viewModelScope.launch {
 //            _resultState.value = settingsDao.getResultPanelType().toString()
 //        }
 //    }
 
-    @RequiresApi(Build.VERSION_CODES.R)
+
     fun onNumberClick(number: Int, selection: Int) {
         expression = putInSelection(expression, number.toString(), selection)
         _expressionState.value = ExpressionState(expression, selection + 1)
+
     }
 
     fun onOperatorClick(operator: Operator, selection: Int) {

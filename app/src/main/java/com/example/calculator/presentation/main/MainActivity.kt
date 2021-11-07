@@ -2,16 +2,15 @@ package com.example.calculator.presentation.main
 
 import android.content.Context
 import android.content.Intent
-import android.os.Build
-import android.os.Bundle
-import android.os.VibrationEffect
-import android.os.Vibrator
+import android.os.*
 import android.os.Vibrator.VIBRATION_EFFECT_SUPPORT_YES
 import android.view.Gravity
 import android.widget.Button
 import androidx.activity.result.launch
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
@@ -26,7 +25,6 @@ import com.example.calculator.domain.entity.ResultPanelType
 import com.example.calculator.presentation.settings.SettingsActivity
 import com.example.presentation.history.HistoryResult
 
-
 class MainActivity : BaseActivity() {
 
     private val viewBinding by viewBinding(MainActivityBinding::bind)
@@ -35,7 +33,8 @@ class MainActivity : BaseActivity() {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
                 return MainViewModel(
                     SettingsDaoProvider.get(this@MainActivity),
-                    HistoryRepositoryProvider.get(this@MainActivity)) as T
+                    HistoryRepositoryProvider.get(this@MainActivity)
+                ) as T
             }
         }
     }
@@ -44,10 +43,26 @@ class MainActivity : BaseActivity() {
         viewModel.onHistoryResult(item)
     }
 
+
+
+
+
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
 
+
+
+        val vibe = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+
+        viewBinding.mainEight.setOnClickListener{
+            vibe.vibrate(
+                VibrationEffect.createOneShot(500,
+                    VibrationEffect.DEFAULT_AMPLITUDE))
+        }
 
         viewBinding.mainInput.apply {
             showSoftInputOnFocus = false
@@ -94,7 +109,12 @@ class MainActivity : BaseActivity() {
             viewBinding.mainEight,
             viewBinding.mainNine,
         ).forEachIndexed { index, textView ->
-            textView.setOnClickListener { viewModel.onNumberClick(index, viewBinding.mainInput.selectionStart) }
+            textView.setOnClickListener {
+                viewModel.onNumberClick(
+                    index,
+                    viewBinding.mainInput.selectionStart
+                )
+            }
         }
 
         mapOf(
@@ -114,23 +134,31 @@ class MainActivity : BaseActivity() {
         viewBinding.mainSqrt.setOnClickListener {
             viewModel.onSqrtClick(viewBinding.mainInput.selectionStart)
         }
-        viewBinding.mainEquals.setOnClickListener{viewModel.onEqualsClick(Operator.EQUALS, viewBinding.mainResult.text)}
-        viewBinding.mainBackspace.setOnClickListener{viewModel.onBackSpaceClick(viewBinding.mainInput.selectionStart)}
-        viewBinding.mainClear.setOnClickListener{viewModel.onClearClick()}
+        viewBinding.mainEquals.setOnClickListener {
+            viewModel.onEqualsClick(
+                Operator.EQUALS,
+                viewBinding.mainResult.text
+            )
+        }
+        viewBinding.mainBackspace.setOnClickListener { viewModel.onBackSpaceClick(viewBinding.mainInput.selectionStart) }
+        viewBinding.mainClear.setOnClickListener { viewModel.onClearClick() }
 
     }
-
 
     override fun onStart() {
         super.onStart()
         viewModel.onStart()
+
     }
 
     private fun openSettings() {
         startActivity(Intent(this, SettingsActivity::class.java))
 
     }
+
     private fun openHistory() {
         resultLauncher.launch()
     }
+
+
 }
