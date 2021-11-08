@@ -4,15 +4,14 @@ import com.example.calculator.domain.entity.ResultPanelType
 
 interface SettingsDao {
 
-    /**
-     * устанавливает тип отображения панели результата
-     **/
-
     suspend fun setResultPanelType(resultPanelType: ResultPanelType)
-
-    /**
-     * получает тип отображения панели результата
-     **/
-
     suspend fun getResultPanelType(): ResultPanelType
+
+
+    suspend fun getPrecision() : Int
+    suspend fun setPrecision(precision:Int)
+
+    suspend fun getVibration() : Int
+    suspend fun setVibration(vibration:Int)
+
 }

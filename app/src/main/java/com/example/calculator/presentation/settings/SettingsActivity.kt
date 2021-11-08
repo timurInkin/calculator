@@ -3,6 +3,7 @@ package com.example.calculator.presentation.settings
 import android.app.AlertDialog
 import android.os.Bundle
 import android.system.Os.bind
+import android.widget.SeekBar
 
 import androidx.activity.viewModels
 import androidx.lifecycle.ViewModel
@@ -29,6 +30,7 @@ class SettingsActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.settings_activity)
+
         viewBinding.settingBack.setOnClickListener {
             finish()
         }
@@ -36,32 +38,67 @@ class SettingsActivity : BaseActivity() {
             viewModel.onResultPanelTypeClicked()
         }
 
-        viewModel.resultPanelType.observe(this) { state ->
+        viewBinding.precisionValue.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
+                viewBinding.precisionValueText.text = seekBar.progress.toString()
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar) {}
+
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+                viewModel.onPrecisionChanged(seekBar.progress)
+            }
+        })
+
+        viewBinding.vibrationValue.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
+                viewBinding.vibrationValueText.text = seekBar.progress.toString()
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar) {}
+
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+                viewModel.onVibrationChanged(seekBar.progress)
+            }
+        })
+
+        viewModel.resultPanelState.observe(this) { state ->
             viewBinding.resultPanelDescription.text =
                 resources.getStringArray(R.array.result_panel_types)[state.ordinal]
+        }
+
+
+        viewModel.precisionResult.observe(this) {
+            viewBinding.precisionValue.progress = it
+        }
+
+        viewModel.vibrationTime.observe(this) {
+            viewBinding.vibrationValue.progress = it
         }
         viewModel.openResultPanelAction.observe(this) { type ->
             showDialog(type)
         }
+
+
     }
+
     private fun showDialog(type: ResultPanelType) {
         var result: Int? = null
-        AlertDialog.Builder(this)
-            .setTitle(getString(R.string.settings_result_panel_title))
-//            .setMessage("Message")
-            .setPositiveButton("OK") { dialog, id ->
-                result?.let {viewModel.onResultPanelTypeChanged(ResultPanelType.values()[it])}
+        val builder = AlertDialog.Builder(this)
+        with (builder) {
+            setTitle(getString(R.string.settings_result_panel_title))
+            setPositiveButton("Принято") { _, _ ->
+                result?.let {
+                    viewModel.onResultPanelTypeChanged(ResultPanelType.values()[it])
+                }
             }
-            .setNegativeButton("Fuck U") {dialog, id ->
+            setNegativeButton("Отмена") { _, _ ->
 
             }
-
-            .setSingleChoiceItems(R.array.result_panel_types, type.ordinal) { dialog, id ->
+            setSingleChoiceItems(R.array.result_panel_types, type.ordinal) { _, id ->
                 result = id
-
             }
-            .show()
-
+            show()
+        }
     }
 }
 

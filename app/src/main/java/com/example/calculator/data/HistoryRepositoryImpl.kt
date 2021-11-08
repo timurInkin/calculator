@@ -19,6 +19,9 @@ class HistoryRepositoryImpl (
         return historyItemDao.getAll().map { it.toHistoryItem() }
     }
 
+    override suspend fun clear() {
+        historyItemDao.clear()
+    }
 
     private fun HistoryItem.toHistoryItemEntity() = HistoryItemEntity (
         id = 0,

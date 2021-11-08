@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.calculator.domain.HistoryRepository
 import com.example.calculator.domain.entity.HistoryItem
-import com.example.calculator.presentation.settings.SingleLiveEvent
+import com.example.calculator.presentation.common.SingleLiveEvent
 import kotlinx.coroutines.launch
 
 class HistoryViewModel(
@@ -15,7 +15,7 @@ class HistoryViewModel(
 
 
     private val _historyItemState = MutableLiveData<List<HistoryItem>>()
-    val historyItemState  = _historyItemState
+    val historyItemState = _historyItemState
 
     private val _closeWithResult = SingleLiveEvent<HistoryItem>()
     val closeWithResult = _closeWithResult
@@ -28,5 +28,12 @@ class HistoryViewModel(
 
     fun onItemClick(historyItem: HistoryItem) {
         _closeWithResult.value = historyItem
+    }
+
+    fun clearHistory() {
+        viewModelScope.launch {
+            historyRepository.clear()
+            _historyItemState.value = historyRepository.getAll()
+        }
     }
 }

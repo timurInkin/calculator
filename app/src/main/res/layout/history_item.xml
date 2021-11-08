@@ -2,34 +2,56 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/shape_main_button"
+    android:clickable="true"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="16dp"
-    android:background="?attr/selectableItemBackground">
-
+    android:layout_margin="16dp"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <TextView
         android:id="@+id/expression"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/teal_700"
         android:textSize="16sp"
+        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:gravity="start|center_vertical"
+        tools:text = "23 + 23 + 23"
         />
+
     <TextView
-        android:id="@+id/result"
-        android:layout_width="match_parent"
+        android:id="@+id/equals"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/teal_700"
-        android:layout_marginTop="10dp"
-        android:textSize="20sp"
+        android:text=" =  "
+        android:textSize="16sp"
+        android:textColor="@color/black"
         app:layout_constraintTop_toBottomOf="@id/expression"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:gravity="end|center_vertical"
-        tools:text="gfsbgkjfdnjkgnfkjdbdfjlhsglgfggfsbgkjfdnjkgnfkjdbdfjlhsglgfggfsbgkjfdnjkgnfkjdbdfjlhsglgfggfsbgkjfdnjkgnfkjdbdfjlhsglgfggfsbgkjfdnjkgnfkjdbdfjlhsglgfggfsbgkjfdnjkgnfkjdbdfjlhsglgfg"
+        />
+
+
+    <TextView
+        android:id="@+id/result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="1341351315151351153"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/expression"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/equals"
+        />
+
+    <TextView
+        android:id="@+id/createdAt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/result"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="15 октября 2018 года"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

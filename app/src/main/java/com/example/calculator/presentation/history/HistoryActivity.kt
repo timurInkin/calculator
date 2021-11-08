@@ -2,6 +2,7 @@ package com.example.calculator.presentation.history
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.method.TextKeyListener.clear
 import androidx.activity.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -19,9 +20,8 @@ class HistoryActivity : BaseActivity() {
     private val viewModel: HistoryViewModel by viewModels() {
         object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return HistoryViewModel(
-                    HistoryRepositoryProvider.get(this@HistoryActivity)
-                ) as T
+                return HistoryViewModel(HistoryRepositoryProvider.get(this@HistoryActivity))
+                        as T
             }
         }
     }
@@ -31,8 +31,14 @@ class HistoryActivity : BaseActivity() {
         setContentView(R.layout.history_activity)
 
 
-        val historyAdapter = HistoryAdapter(viewModel::onItemClick)
-
+        val historyAdapter = HistoryAdapter{
+            viewModel.onItemClick(it)
+        }
+        viewBinding.settingBack.setOnClickListener{
+            finish()
+        }
+        viewBinding.clearHistory.setOnClickListener{
+            viewModel.clearHistory();        }
 
         with(viewBinding.list) {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)

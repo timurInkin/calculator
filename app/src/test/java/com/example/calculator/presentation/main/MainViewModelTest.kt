@@ -27,7 +27,7 @@ class MainViewModelTest {
 
         viewModel.onNumberClick(1,0)
         viewModel.onNumberClick(0,1)
-        viewModel.onOperatorClick(Operator.DEVIDE, 2)
+        viewModel.onOperatorClick(Operator.DIVIDE, 2)
         viewModel.onNumberClick(2,3)
 
         Assert.assertEquals("10/2", viewModel.expressionState.value?.expression)

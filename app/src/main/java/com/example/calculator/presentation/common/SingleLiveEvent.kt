@@ -1,4 +1,4 @@
-package com.example.calculator.presentation.settings
+package com.example.calculator.presentation.common
 
 import android.util.Log
 import androidx.annotation.MainThread
@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import java.util.concurrent.atomic.AtomicBoolean
 
-class SingleLiveEvent<T> : MutableLiveData<T>() {
+class SingleLiveEvent<T>() : MutableLiveData<T>() {
 
     private val mPending = AtomicBoolean(false)
 

@@ -1,26 +1,19 @@
-package com.example.calculator.data
+package com.example.calculator.domain
 
 import com.fathzer.soft.javaluator.DoubleEvaluator
 import kotlin.math.floor
 
+fun calculateExpression(expression: String, precision: Int): String {
 
-
-
-fun calculateExpression(expression: String) : String {
 
     if (expression.isBlank()) return ""
 
-    var formattedExpression = expression
-    while (!formattedExpression.last().isDigit()) {
-        formattedExpression = formattedExpression.dropLast(1)
-    }
-
-    val result = DoubleEvaluator().evaluate(formattedExpression)
-
+    val result = DoubleEvaluator().evaluate(expression)
 
     return if (floor(result) == result) {
         result.toInt().toString()
     } else {
-        result.toString()
+        "%.${precision}f".format(result)
     }
 }
+

@@ -1,10 +1,7 @@
 package com.example.calculator.domain
 
-import com.example.calculator.data.calculateExpression
 import org.junit.Assert
-import org.junit.Assert.*
 import org.junit.Test
-import java.lang.Exception
 
 class CalculateExpressionsKtTest {
 

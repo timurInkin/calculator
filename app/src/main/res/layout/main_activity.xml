@@ -76,7 +76,7 @@
                 app:layout_constraintEnd_toEndOf="@id/main_nine"
                 app:layout_constraintTop_toTopOf="@id/main_result"
 
-                app:srcCompat="@drawable/ic_close_24" />
+                app:srcCompat="@drawable/ic_baseline_keyboard_backspace_24" />
 
             <TextView
                 android:id="@+id/main_sqrt"
@@ -119,7 +119,7 @@
                 android:id="@+id/main_multiply"
                 style="@style/MainBotton"
                 android:layout_weight="1"
-                android:text="*" />
+                android:text="×" />
         </LinearLayout>
 
         <LinearLayout

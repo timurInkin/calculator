@@ -1,27 +1,18 @@
 package com.example.calculator.presentation.main
 
-import android.content.Context
-import android.os.Build
-import android.os.VibrationAttributes
-import android.os.VibrationEffect
-import android.os.Vibrator
 import android.util.Log
-import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat.getSystemService
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.calculator.data.calculateExpression
 import com.example.calculator.domain.HistoryRepository
 import com.example.calculator.domain.SettingsDao
+import com.example.calculator.domain.calculateExpression
 import com.example.calculator.domain.entity.HistoryItem
 import com.example.calculator.domain.entity.ResultPanelType
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
 
-//private val Context.HAPTIC_FEEDBACK_DURATION: Long
-//    get() {}
 
 class MainViewModel(
     private val settingsDao: SettingsDao,
@@ -36,20 +27,33 @@ class MainViewModel(
     private val _resultState = MutableLiveData<String>()
     val resultState: LiveData<String> = _resultState
 
-    private val _resultPanelState = MutableLiveData<ResultPanelType>(ResultPanelType.LEFT)
+    private val _resultPanelState = MutableLiveData<ResultPanelType>(ResultPanelType.RIGHT)
     val resultPanelState: LiveData<ResultPanelType> = _resultPanelState
 
+    private val _vibrationTime = MutableLiveData<Int>()
+    val vibrationTime = _vibrationTime
 
-//    init {
-//        viewModelScope.launch {
-//            _resultState.value = settingsDao.getResultPanelType().toString()
-//        }
-//    }
+    private val _precisionResult = MutableLiveData<Int>()
+    val precisionResult = _precisionResult
+
+
+
+
+    init {
+        viewModelScope.launch {
+            _resultPanelState.value = settingsDao.getResultPanelType()
+            _precisionResult.value = settingsDao.getPrecision()
+            _vibrationTime.value = settingsDao.getVibration()
+
+
+        }
+    }
 
 
     fun onNumberClick(number: Int, selection: Int) {
         expression = putInSelection(expression, number.toString(), selection)
         _expressionState.value = ExpressionState(expression, selection + 1)
+
 
     }
 
@@ -59,21 +63,21 @@ class MainViewModel(
 //        _resultState.value = calculateExpression(expression)
     }
 
-    fun onEqualsClick(equals: Operator, text: CharSequence) {
-        val result = calculateExpression(expression)
-        viewModelScope.launch {
-
-            try {
-                historyRepository.add(HistoryItem(expression, result))
-                _resultState.value = result
-//                _expressionState.value = ExpressionState(result, result.length)
-                expression = result
-            } catch (e: java.lang.IllegalArgumentException) {
-                //nope
+    fun onEqualsClick() {
+        try {
+            val result = calculateExpression(expression, precisionResult.value ?: 0)
+            _resultState.value = result
+            viewModelScope.launch {
+                historyRepository.add(HistoryItem(
+                    expression,
+                    result,
+                    LocalDateTime.now()
+                ))
             }
+        } catch (e: java.lang.IllegalArgumentException) {
+            // do nothing
         }
     }
-
     fun onBackSpaceClick(selection: Int) {
         if (selection <= 0) {
             return
@@ -82,11 +86,11 @@ class MainViewModel(
         _expressionState.value = ExpressionState(expression, (selection - 1).coerceAtLeast(0))
     }
 
+
     fun onClearClick() {
         expression = ""
         _expressionState.value = ExpressionState("", 0)
         _resultState.value = ""
-//        Fragment().vibratePhone()
     }
 
 
@@ -102,7 +106,12 @@ class MainViewModel(
 
     fun onStart() {
         viewModelScope.launch {
-            _resultState.value = settingsDao.getResultPanelType().toString()
+//            _resultState.value = settingsDao.getResultPanelType().toString()
+            _resultPanelState.value = settingsDao.getResultPanelType()
+            _precisionResult.value = settingsDao.getPrecision()
+            _vibrationTime.value = settingsDao.getVibration()
+            Log.d("mainViewModel","%d %d".format(_precisionResult.value,_vibrationTime.value))
+
         }
     }
 
@@ -114,23 +123,13 @@ class MainViewModel(
         }
 
     }
-    @RequiresApi(Build.VERSION_CODES.R)
     fun onSqrtClick(selection: Int) {
         onOperatorClick(Operator.DEGREE, selection)
-        onNumberClick(0, selection + 1)
-        onOperatorClick(Operator.DOT, selection + 2)
-        onNumberClick(5, selection + 3)
-        selection + 1
+        onOperatorClick(Operator.LEFT_BRACE, selection + 1)
+        onNumberClick(0, selection + 2)
+        onOperatorClick(Operator.DOT, selection + 3)
+        onNumberClick(5, selection + 4)
+        onOperatorClick(Operator.RIGHT_BRACE, selection + 5)
     }
-
-
-
-
-
-
-
 }
-enum class Operator(val symbol: String) {
-    MINUS("-"), PLUS("+"), MULTIPUE("*"),DEVIDE("/"), DOT ("."), EQUALS("="), DEGREE ("^"), LEFT_BRACE ("("), RIGHT_BRACE (")")
-}
-class ExpressionState(val expression: String, val selection: Int)
+

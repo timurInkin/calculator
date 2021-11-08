@@ -32,38 +32,110 @@
         android:id="@+id/result_panel_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_marginTop="24dp"
+        android:orientation="vertical"
         android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintEnd_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title">
 
-    <TextView
-        android:id="@+id/result_panel_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/settings_result_panel_title"
-        android:textColor="@color/options_button_color"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title" />
 
-    <TextView
-        android:id="@+id/result_panel_description"
+        <TextView
+            android:id="@+id/panel_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:text="Панель результата" />
+        <TextView
+            android:id="@+id/result_panel_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:textColor="@color/text_color"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/panel_precision"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        tools:text="Панель результата"
-        android:textSize="20sp"
-        android:textColor="@color/text_color"
+        android:orientation="vertical"
+        android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/result_panel_title" />
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/result_panel_container">
 
+        <TextView
+            android:id="@+id/result_precision"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/result_panel_title"
+            android:text="Точность вычисления" />
+
+        <TextView
+            android:id="@+id/precision_value_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="0" />
+
+        <SeekBar
+            android:id="@+id/precision_value"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:layout_weight="1"
+            android:max="20"
+            android:min="0"
+            app:layout_constraintTop_toBottomOf="@+id/precision_value_text" />
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/panel_vibration"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:orientation="vertical"
+        android:padding="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/panel_precision">
+        <TextView
+            android:id="@+id/vibration_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/precision_value"
+            android:text="Длительность вибрации" />
 
+        <TextView
+            android:id="@+id/vibration_value_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="0" />
+
+        <SeekBar
+            android:id="@+id/vibration_value"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:layout_weight="1"
+            android:max="255"
+            android:min="1"
+            app:layout_constraintTop_toBottomOf="@+id/vibration_value_text" />
+
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

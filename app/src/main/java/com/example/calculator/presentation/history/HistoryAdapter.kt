@@ -6,10 +6,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.calculator.R
 import com.example.calculator.databinding.HistoryItemBinding
 import com.example.calculator.domain.entity.HistoryItem
+import com.example.calculator.domain.historyFormat
 
-class HistoryAdapter (
+class HistoryAdapter(
     private val onItemClick: (HistoryItem) -> Unit
-        ) : RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() {
+) : RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() {
 
     private var data: List<HistoryItem> = emptyList()
 
@@ -29,6 +30,7 @@ class HistoryAdapter (
         with(holder.bindings) {
             expression.text = item.expression
             result.text = item.result
+            createdAt.text = historyFormat(item.createdAt)
             root.setOnClickListener {
                 onItemClick(item)
             }
@@ -40,5 +42,5 @@ class HistoryAdapter (
     }
 
 
-    class HistoryViewHolder(val bindings: HistoryItemBinding) : RecyclerView.ViewHolder(bindings.root)
+    class HistoryViewHolder(val bindings:HistoryItemBinding): RecyclerView.ViewHolder(bindings.root)
 }

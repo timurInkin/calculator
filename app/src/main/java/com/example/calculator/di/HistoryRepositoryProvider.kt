@@ -8,6 +8,7 @@ object HistoryRepositoryProvider {
     private var repository: HistoryRepository? = null
 
     fun get(context: Context): HistoryRepository {
-        return repository ?: HistoryRepositoryImpl(DatabaseProvider.get(context).historyItemDao).also { repository = it}
+        return repository ?: HistoryRepositoryImpl(DatabaseProvider.get(context).historyItemDao)
+            .also { repository = it}
     }
 }
